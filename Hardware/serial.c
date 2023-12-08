@@ -3,7 +3,7 @@
 #include "stm32f10x.h"
 #include "defs.h"
 
-char Serial_RxPacket[RX_PACKET_LEN];
+uint8_t Serial_RxPacket[RX_PACKET_LEN];
 uint8_t Serial_RxFlag;
 
 /**
@@ -141,12 +141,32 @@ int fputc(int ch, FILE *f)
   */
 void Serial_Printf(char *format, ...)
 {
-    char String[100];
+    char String[TX_PACKET_LEN];
     va_list arg;
     va_start(arg, format);
     vsprintf(String, format, arg);
     va_end(arg);
     Serial_SendString(String);
+}
+
+/**
+  * @brief  获取串口接收到的数据
+  * @retval 字符串/char[]数组/uint8_t[]数组
+  */
+uint8_t* Serial_Get(void)
+{
+    // 检查是否接收完成
+    if (Serial_RxFlag == 1)
+    {
+        // 在调试模式下打印字符串
+        if (DEBUG) {
+            printf(Serial_RxPacket);
+        }
+        // 重新开启接收
+        Serial_RxFlag = 0;
+        return Serial_RxPacket;
+    }
+    return NULL;
 }
 
 /**
@@ -162,7 +182,7 @@ void USART3_IRQHandler(void)
         uint8_t RxData = USART_ReceiveData(USART3);
         if (RxState == 0)  // 等待包头状态
         {
-            if (RxData == '@' && Serial_RxFlag == 0)
+            if (RxData == PACKET_HEAD && Serial_RxFlag == 0)
             {
                 RxState = 1;
                 pRxPacket = 0;
@@ -170,7 +190,7 @@ void USART3_IRQHandler(void)
         }
         else if (RxState == 1)  // 接收数据状态
         {
-            if (RxData == '\r')
+            if (RxData == PACKET_ENDS)
             {
                 RxState = 2;
             }
@@ -183,7 +203,7 @@ void USART3_IRQHandler(void)
         }
         else if (RxState == 2)  // 等待包尾状态
         {
-            if (RxData == '\n')
+            if (RxData == PACKET_TAIL)
             {
                 RxState = 0;
                 Serial_RxPacket[pRxPacket] = '\0';

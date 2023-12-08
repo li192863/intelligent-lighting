@@ -85,8 +85,6 @@
 // 发送 TX
 #define TX_MODE GPIO_Mode_AF_PP
 #define TX GPIO_Pin_10
-// 缓冲区长度
-#define RX_PACKET_LEN (256)
 // 波特率
 #define BAUD_RATE (9600)
 // 硬件流控制
@@ -97,6 +95,16 @@
 #define STOP_BITS USART_StopBits_1
 // 数据位长度
 #define WORD_LENGTH USART_WordLength_8b
+// 接收缓冲区长度
+#define RX_PACKET_LEN (256)
+// 发送缓冲区长度
+#define TX_PACKET_LEN (256)
+// 信息包头
+#define PACKET_HEAD 0xFF
+// 信息结束
+#define PACKET_ENDS 0xFD
+// 信息包尾
+#define PACKET_TAIL 0xFE
 
 // 按键
 // 外部中断模式
