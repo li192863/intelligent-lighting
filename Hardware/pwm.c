@@ -18,70 +18,69 @@ void PWM_Init(void)
     // 初始化引脚
     GPIO_InitTypeDef GPIO_InitStruct;
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X1;
+    GPIO_InitStruct.GPIO_Pin = X1_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOA, &GPIO_InitStruct);
+    GPIO_Init(X1_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X2;
+    GPIO_InitStruct.GPIO_Pin = X2_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOA, &GPIO_InitStruct);
+    GPIO_Init(X2_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X3;
+    GPIO_InitStruct.GPIO_Pin = X3_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOA, &GPIO_InitStruct);
+    GPIO_Init(X3_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X4;
+    GPIO_InitStruct.GPIO_Pin = X4_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOA, &GPIO_InitStruct);
+    GPIO_Init(X4_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X9;
+    GPIO_InitStruct.GPIO_Pin = X5_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOA, &GPIO_InitStruct);
+    GPIO_Init(X5_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X10;
+    GPIO_InitStruct.GPIO_Pin = X6_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOA, &GPIO_InitStruct);
+    GPIO_Init(X6_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X11;
+    GPIO_InitStruct.GPIO_Pin = X7_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOA, &GPIO_InitStruct);
+    GPIO_Init(X7_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X12;
+    GPIO_InitStruct.GPIO_Pin = X8_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOA, &GPIO_InitStruct);
+    GPIO_Init(X8_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X13;
+    GPIO_InitStruct.GPIO_Pin = X9_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOA, &GPIO_InitStruct);
+    GPIO_Init(X9_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X14;
+    GPIO_InitStruct.GPIO_Pin = X10_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOA, &GPIO_InitStruct);
-
+    GPIO_Init(X10_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X5;
+    GPIO_InitStruct.GPIO_Pin = X11_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOB, &GPIO_InitStruct);
+    GPIO_Init(X11_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X6;
+    GPIO_InitStruct.GPIO_Pin = X12_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOB, &GPIO_InitStruct);
+    GPIO_Init(X12_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X7;
+    GPIO_InitStruct.GPIO_Pin = X13_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOB, &GPIO_InitStruct);
+    GPIO_Init(X13_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X8;
+    GPIO_InitStruct.GPIO_Pin = X14_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOB, &GPIO_InitStruct);
+    GPIO_Init(X14_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X15;
+    GPIO_InitStruct.GPIO_Pin = X15_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOB, &GPIO_InitStruct);
+    GPIO_Init(X15_PORT, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = X_MODE; // 复用推挽输出
-    GPIO_InitStruct.GPIO_Pin = X16;
+    GPIO_InitStruct.GPIO_Pin = X16_PIN;
     GPIO_InitStruct.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOB, &GPIO_InitStruct);
+    GPIO_Init(X16_PORT, &GPIO_InitStruct);
 
     // 使用定时器内部时钟源
     TIM_InternalClockConfig(TIM1);

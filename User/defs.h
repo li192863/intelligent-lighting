@@ -11,9 +11,9 @@
 // 调节最小值
 #define MIN_VALUE (0)
 // 调节最大值
-#define MAX_VALUE (255)
+#define MAX_VALUE (127)
 
-// PWM Freq = CK_PSC / (PSC + 1) / (ARR + 1) = 72M / 256 / 70 = 4017.86kHz
+// PWM Freq = CK_PSC / (PSC + 1) / (ARR + 1) = 72M / 128 / 140 = 4017.86kHz
 // 时钟分频 1分频
 #define CLOCK_DIVISION TIM_CKD_DIV1
 // 计数模式 向上计数
@@ -21,7 +21,7 @@
 // ARR
 #define ARR MAX_VALUE
 // PSC
-#define PSC (72000000 / (ARR + 1) / FREQ)
+#define PSC (72000000 / (ARR + 1) / FREQ)  // 72M / 128 / 4k = 140
 // 重复计数器
 #define REPETITION_COUNTER (0)
 // 输出模式
@@ -36,55 +36,83 @@
 // 模式 上拉输入
 #define T_MODE GPIO_Mode_IPU
 // GPIOC
-#define T1 GPIO_Pin_14
-#define T2 GPIO_Pin_15
+#define T1_PORT GPIOC
+#define T1_PIN GPIO_Pin_14
+#define T2_PORT GPIOC
+#define T2_PIN GPIO_Pin_15
 // GPIOA
-#define T3 GPIO_Pin_4
-#define T4 GPIO_Pin_5
+#define T3_PORT GPIOA
+#define T3_PIN GPIO_Pin_4
+#define T4_PORT GPIOA
+#define T4_PIN GPIO_Pin_5
 // GPIOB
-#define T5 GPIO_Pin_5
-#define T6 GPIO_Pin_4
-#define T7 GPIO_Pin_3
+#define T5_PORT GPIOB
+#define T5_PIN GPIO_Pin_5
+#define T6_PORT GPIOB
+#define T6_PIN GPIO_Pin_4
+#define T7_PORT GPIOB
+#define T7_PIN GPIO_Pin_3
 // GPIOA
-#define T8 GPIO_Pin_15
+#define T8_PORT GPIOA
+#define T8_PIN GPIO_Pin_15
 // GPIOB
-#define T9 GPIO_Pin_15  // 预留
-#define T10 GPIO_Pin_14 // 预留
-#define T11 GPIO_Pin_13 // 预留
-#define T12 GPIO_Pin_12 // 预留
+#define T9_PORT GPIOB
+#define T9_PIN GPIO_Pin_15  // 预留
+#define T10_PORT GPIOB
+#define T10_PIN GPIO_Pin_14 // 预留
+#define T11_PORT GPIOB
+#define T11_PIN GPIO_Pin_13 // 预留
+#define T12_PORT GPIOB
+#define T12_PIN GPIO_Pin_12 // 预留
 
-// 输出 X1~X12
+// 输出 X1~X16
 // 模式 复用推挽输出
 #define X_MODE GPIO_Mode_AF_PP
 // GPIOA
-#define X1 GPIO_Pin_0
-#define X2 GPIO_Pin_1
-#define X3 GPIO_Pin_2
-#define X4 GPIO_Pin_3
+#define X1_PORT GPIOA
+#define X1_PIN GPIO_Pin_0
+#define X2_PORT GPIOA
+#define X2_PIN GPIO_Pin_1
+#define X3_PORT GPIOA
+#define X3_PIN GPIO_Pin_2
+#define X4_PORT GPIOA
+#define X4_PIN GPIO_Pin_3
 // GPIOB
-#define X5 GPIO_Pin_9
-#define X6 GPIO_Pin_8
-#define X7 GPIO_Pin_7
-#define X8 GPIO_Pin_6
+#define X5_PORT GPIOB
+#define X5_PIN GPIO_Pin_9
+#define X6_PORT GPIOB
+#define X6_PIN GPIO_Pin_8
+#define X7_PORT GPIOB
+#define X7_PIN GPIO_Pin_7
+#define X8_PORT GPIOB
+#define X8_PIN GPIO_Pin_6
 // GPIOA
-#define X9 GPIO_Pin_11
-#define X10 GPIO_Pin_10
-#define X11 GPIO_Pin_9
-#define X12 GPIO_Pin_8
+#define X9_PORT GPIOA
+#define X9_PIN GPIO_Pin_11
+#define X10_PORT GPIOA
+#define X10_PIN GPIO_Pin_10
+#define X11_PORT GPIOA
+#define X11_PIN GPIO_Pin_9
+#define X12_PORT GPIOA
+#define X12_PIN GPIO_Pin_8
 // GPIOA
-#define X13 GPIO_Pin_6
-#define X14 GPIO_Pin_7
+#define X13_PORT GPIOA
+#define X13_PIN GPIO_Pin_6
+#define X14_PORT GPIOA
+#define X14_PIN GPIO_Pin_7
 // GPIOB
-#define X15 GPIO_Pin_0
-#define X16 GPIO_Pin_1
+#define X15_PORT GPIOB
+#define X15_PIN GPIO_Pin_0
+#define X16_PORT GPIOB
+#define X16_PIN GPIO_Pin_1
 
 // 通信 USART3
 // 接收 RX
 #define RX_MODE GPIO_Mode_IPU
-#define RX GPIO_Pin_11
+#define RX_PIN GPIO_Pin_11
 // 发送 TX
 #define TX_MODE GPIO_Mode_AF_PP
-#define TX GPIO_Pin_10
+#define TX_PIN GPIO_Pin_10
 // 波特率
 #define BAUD_RATE (9600)
 // 硬件流控制

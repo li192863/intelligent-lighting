@@ -19,11 +19,11 @@ void Serial_Init(void)
     // 初始化引脚
     GPIO_InitTypeDef GPIO_InitStructure;
     GPIO_InitStructure.GPIO_Mode = TX_MODE;
-    GPIO_InitStructure.GPIO_Pin = TX;
+    GPIO_InitStructure.GPIO_Pin = TX_PIN;
     GPIO_InitStructure.GPIO_Speed = SPEED;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Mode = RX_MODE;
-    GPIO_InitStructure.GPIO_Pin = RX;
+    GPIO_InitStructure.GPIO_Pin = RX_PIN;
     GPIO_InitStructure.GPIO_Speed = SPEED;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
 

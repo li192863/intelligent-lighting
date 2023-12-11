@@ -17,37 +17,37 @@ void Key_Init(void)
     // 初始化引脚
     GPIO_InitTypeDef GPIO_InitStructure;
     GPIO_InitStructure.GPIO_Mode = T_MODE;
-    GPIO_InitStructure.GPIO_Pin = T1;
+    GPIO_InitStructure.GPIO_Pin = T1_PIN;
     GPIO_InitStructure.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOC, &GPIO_InitStructure);
+    GPIO_Init(T1_PORT, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Mode = T_MODE;
-    GPIO_InitStructure.GPIO_Pin = T2;
+    GPIO_InitStructure.GPIO_Pin = T2_PIN;
     GPIO_InitStructure.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOC, &GPIO_InitStructure);
+    GPIO_Init(T2_PORT, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Mode = T_MODE;
-    GPIO_InitStructure.GPIO_Pin = T3;
+    GPIO_InitStructure.GPIO_Pin = T3_PIN;
     GPIO_InitStructure.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_Init(T3_PORT, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Mode = T_MODE;
-    GPIO_InitStructure.GPIO_Pin = T4;
+    GPIO_InitStructure.GPIO_Pin = T4_PIN;
     GPIO_InitStructure.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_Init(T4_PORT, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Mode = T_MODE;
-    GPIO_InitStructure.GPIO_Pin = T5;
+    GPIO_InitStructure.GPIO_Pin = T5_PIN;
     GPIO_InitStructure.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
+    GPIO_Init(T5_PORT, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Mode = T_MODE;
-    GPIO_InitStructure.GPIO_Pin = T6;
+    GPIO_InitStructure.GPIO_Pin = T6_PIN;
     GPIO_InitStructure.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
+    GPIO_Init(T6_PORT, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Mode = T_MODE;
-    GPIO_InitStructure.GPIO_Pin = T7;
+    GPIO_InitStructure.GPIO_Pin = T7_PIN;
     GPIO_InitStructure.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
+    GPIO_Init(T7_PORT, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Mode = T_MODE;
-    GPIO_InitStructure.GPIO_Pin = T8;
+    GPIO_InitStructure.GPIO_Pin = T8_PIN;
     GPIO_InitStructure.GPIO_Speed = SPEED;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_Init(T8_PORT, &GPIO_InitStructure);
     
     // 预留T12~T15为外部中断输入
     // RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE); // 使能AFIO时钟
@@ -55,19 +55,19 @@ void Key_Init(void)
     // GPIO_InitStructure.GPIO_Mode = T_MODE;
     // GPIO_InitStructure.GPIO_Pin = T9;
     // GPIO_InitStructure.GPIO_Speed = SPEED;
-    // GPIO_Init(GPIOB, &GPIO_InitStructure);
+    // GPIO_Init(T9_PORT, &GPIO_InitStructure);
     // GPIO_InitStructure.GPIO_Mode = T_MODE;
     // GPIO_InitStructure.GPIO_Pin = T10;
     // GPIO_InitStructure.GPIO_Speed = SPEED;
-    // GPIO_Init(GPIOB, &GPIO_InitStructure);
+    // GPIO_Init(T10_PORT, &GPIO_InitStructure);
     // GPIO_InitStructure.GPIO_Mode = T_MODE;
     // GPIO_InitStructure.GPIO_Pin = T11;
     // GPIO_InitStructure.GPIO_Speed = SPEED;
-    // GPIO_Init(GPIOB, &GPIO_InitStructure);
+    // GPIO_Init(T11_PORT, &GPIO_InitStructure);
     // GPIO_InitStructure.GPIO_Mode = T_MODE;
-    // GPIO_InitStructure.GPIO_Pin = T12;
+    // GPIO_InitStructure.GPIO_Pin = T12_PIN;
     // GPIO_InitStructure.GPIO_Speed = SPEED;
-    // GPIO_Init(GPIOB, &GPIO_InitStructure);
+    // GPIO_Init(T12_PORT, &GPIO_InitStructure);
 
     // EXTI_InitTypeDef EXTI_InitStruct;
     // Line15: B15(T9)
@@ -94,7 +94,7 @@ void Key_Init(void)
     // EXTI_InitStruct.EXTI_LineCmd = ENABLE;
     // EXTI_Init(&EXTI_InitStruct);
 
-    // Line12: B12(T12)
+    // Line12: B12(T12_PIN)
     // GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource12);
     // EXTI_InitStruct.EXTI_Line = EXTI_Line12; // 指定外部中断线
     // EXTI_InitStruct.EXTI_Mode = EXTI_MODE;
@@ -110,59 +110,59 @@ void Key_Init(void)
 uint8_t Key_GetNum(void)
 {
     uint8_t KeyNum = 0;
-    if (GPIO_ReadInputDataBit(GPIOC, T1) == 0)
+    if (GPIO_ReadInputDataBit(T1_PORT, T1_PIN) == 0)
     {
         Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOC, T1) == 0);
+        while (GPIO_ReadInputDataBit(T1_PORT, T1_PIN) == 0);
         Delay_ms(20);
         KeyNum = 1;
     }
-    if (GPIO_ReadInputDataBit(GPIOC, T2) == 0)
+    if (GPIO_ReadInputDataBit(T2_PORT, T2_PIN) == 0)
     {
         Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOC, T2) == 0);
+        while (GPIO_ReadInputDataBit(T2_PORT, T2_PIN) == 0);
         Delay_ms(20);
         KeyNum = 2;
     }
-    if (GPIO_ReadInputDataBit(GPIOA, T3) == 0)
+    if (GPIO_ReadInputDataBit(T3_PORT, T3_PIN) == 0)
     {
         Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOA, T3) == 0);
+        while (GPIO_ReadInputDataBit(T3_PORT, T3_PIN) == 0);
         Delay_ms(20);
         KeyNum = 3;
     }
-    if (GPIO_ReadInputDataBit(GPIOA, T4) == 0)
+    if (GPIO_ReadInputDataBit(T4_PORT, T4_PIN) == 0)
     {
         Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOA, T4) == 0);
+        while (GPIO_ReadInputDataBit(T4_PORT, T4_PIN) == 0);
         Delay_ms(20);
         KeyNum = 4;
     }
-    if (GPIO_ReadInputDataBit(GPIOB, T5) == 0)
+    if (GPIO_ReadInputDataBit(T5_PORT, T5_PIN) == 0)
     {
         Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOB, T5) == 0);
+        while (GPIO_ReadInputDataBit(T5_PORT, T5_PIN) == 0);
         Delay_ms(20);
         KeyNum = 5;
     }
-    if (GPIO_ReadInputDataBit(GPIOB, T6) == 0)
+    if (GPIO_ReadInputDataBit(T6_PORT, T6_PIN) == 0)
     {
         Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOB, T6) == 0);
+        while (GPIO_ReadInputDataBit(T6_PORT, T6_PIN) == 0);
         Delay_ms(20);
         KeyNum = 6;
     }
-    if (GPIO_ReadInputDataBit(GPIOB, T7) == 0)
+    if (GPIO_ReadInputDataBit(T7_PORT, T7_PIN) == 0)
     {
         Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOB, T7) == 0);
+        while (GPIO_ReadInputDataBit(T7_PORT, T7_PIN) == 0);
         Delay_ms(20);
         KeyNum = 7;
     }
-    if (GPIO_ReadInputDataBit(GPIOA, T8) == 0)
+    if (GPIO_ReadInputDataBit(T8_PORT, T8_PIN) == 0)
     {
         Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOA, T8) == 0);
+        while (GPIO_ReadInputDataBit(T8_PORT, T8_PIN) == 0);
         Delay_ms(20);
         KeyNum = 8;
     }
@@ -189,10 +189,10 @@ uint8_t Key_GetNum(void)
     //     Delay_ms(20);
     //     KeyNum = 11;
     // }
-    // if (GPIO_ReadInputDataBit(GPIOB, T12) == 0)
+    // if (GPIO_ReadInputDataBit(GPIOB, T12_PIN) == 0)
     // {
     //     Delay_ms(20);
-    //     while (GPIO_ReadInputDataBit(GPIOB, T12) == 0);
+    //     while (GPIO_ReadInputDataBit(GPIOB, T12_PIN) == 0);
     //     Delay_ms(20);
     //     KeyNum = 12;
     // }
