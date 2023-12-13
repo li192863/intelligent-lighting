@@ -6,6 +6,9 @@
 uint8_t Serial_RxPacket[RX_PACKET_LEN];
 uint8_t Serial_RxFlag = 0;
 
+static uint8_t RxState = 0;
+static uint8_t pRxPacket = 0;
+
 /**
   * @brief  串口初始化
   * @retval 无
@@ -152,9 +155,9 @@ uint8_t* Serial_Get(void)
         // 在调试模式下打印字符串
         if (DEBUG) {
             printf("[DEBUG]: Recive data ");
-            for (int i = 0; Serial_RxPacket[i] != '\0'; i++)
+            for (int i = 0; i < pRxPacket; i++)
             {
-                printf("%02x ", Serial_RxPacket[i]);
+                printf("%02X ", Serial_RxPacket[i]);
             }
             printf("\r\n");
         }
@@ -171,8 +174,6 @@ uint8_t* Serial_Get(void)
   */
 void USART3_IRQHandler(void)
 {
-    static uint8_t RxState = 0;
-    static uint8_t pRxPacket = 0;
     if (USART_GetITStatus(USART3, USART_IT_RXNE) == SET)
     {
         uint8_t RxData = USART_ReceiveData(USART3);
