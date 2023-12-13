@@ -8,10 +8,14 @@
 #define SPEED GPIO_Speed_50MHz
 // 灯源频率
 #define FREQ (4000)
-// 调节最小值
+// 占空比最小值
 #define MIN_VALUE (0)
-// 调节最大值
+// 占空比最大值
 #define MAX_VALUE (127)
+// 占空比调节最小值
+#define MIN_DUTY (8)
+// 占空比调节最大值
+#define MAX_DUTY (119)
 
 // PWM Freq = CK_PSC / (PSC + 1) / (ARR + 1) = 72M / 128 / 140 = 4017.86kHz
 // 时钟分频 1分频
@@ -30,7 +34,6 @@
 #define OC_POLARITY TIM_OCPolarity_High
 // 脉冲初始值
 #define PULSE (0x00)
-
 
 // 输入 T1~T12
 // 模式 上拉输入
@@ -128,16 +131,66 @@
 // 发送缓冲区长度
 #define TX_PACKET_LEN (256)
 // 信息包头
-#define PACKET_HEAD 0xFF
+#define PACKET_HEAD (0xFF)
 // 信息结束
-#define PACKET_ENDS 0xFD
+#define PACKET_ENDS (0xFD)
 // 信息包尾
-#define PACKET_TAIL 0xFE
+#define PACKET_TAIL (0xFE)
 
 // 按键
 // 外部中断模式
 #define EXTI_MODE EXTI_Mode_Interrupt
 // 外部触发方式
 #define EXTI_TRIGGER EXTI_Trigger_Falling
+
+// 存储 Flash
+// 存储单位 以Byte为单位
+#define STORE_UNIT (2)
+// 存储区缓存大小 以HalfWord为单位（16位）
+#define STORE_LEN (1024 / (STORE_UNIT))
+// 存储区起始地址
+#define STORE_START_ADDRESS (0x0800FC00)
+// 选项位区
+#define FLAG_START (0)
+#define FLAG_LEN (8)
+#define FLAG_EFFECTIVE (0x6666)
+// 开关状态区
+#define SWITCH_START ((FLAG_START) + (FLAG_LEN))
+#define SWITCH_LEN (16)
+#define SWITCH_1 (1)
+#define SWITCH_2 (1)
+#define SWITCH_3 (1)
+#define SWITCH_4 (1)
+#define SWITCH_5 (1)
+#define SWITCH_6 (1)
+#define SWITCH_7 (1)
+#define SWITCH_8 (1)
+#define SWITCH_9 (1)
+#define SWITCH_10 (1)
+#define SWITCH_11 (1)
+#define SWITCH_12 (1)
+#define SWITCH_13 (1)
+#define SWITCH_14 (1)
+#define SWITCH_15 (1)
+#define SWITCH_16 (0) // 备用
+// 占空比区
+#define DUTY_START ((SWITCH_START) + (SWITCH_LEN))
+#define DUTY_LEN (16)
+#define DUTY_1 (MAX_DUTY)
+#define DUTY_2 (MAX_DUTY)
+#define DUTY_3 (MAX_DUTY)
+#define DUTY_4 (MAX_DUTY)
+#define DUTY_5 (MAX_DUTY)
+#define DUTY_6 (MAX_DUTY)
+#define DUTY_7 (MAX_DUTY)
+#define DUTY_8 (MAX_DUTY)
+#define DUTY_9 (MAX_DUTY)
+#define DUTY_10 (MAX_DUTY)
+#define DUTY_11 (MAX_DUTY)
+#define DUTY_12 (MAX_DUTY)
+#define DUTY_13 (MAX_DUTY)
+#define DUTY_14 (MAX_DUTY)
+#define DUTY_15 (MAX_DUTY)
+#define DUTY_16 (MIN_DUTY) // 备用
 
 #endif
