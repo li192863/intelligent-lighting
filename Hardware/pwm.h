@@ -2,6 +2,6 @@
 #define __PWM_H
 
 void PWM_Init(void);
-void PWM_SetDuty(uint8_t i, uint8_t duty);
+void PWM_SetDuty(uint8_t i, uint16_t duty);
 
 #endif

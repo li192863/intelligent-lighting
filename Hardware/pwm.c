@@ -1,3 +1,4 @@
+#include <math.h>
 #include "stm32f10x.h"                  // Device header
 #include "defs.h"
 
@@ -163,11 +164,11 @@ void PWM_Init(void)
 
 /**
  * @brief  设置第i个输出得占空比
- * @param i 第i个输出
- * @param duty 占空比 * MAX_VALUE 0 ~ 255
+ * @param i 第i个输出 1 ~ 16
+ * @param duty 占空比 * MAX_VALUE
  * @retval 无
  */
-void PWM_SetDuty(uint8_t i, uint8_t duty)
+void PWM_SetDuty(uint8_t i, uint16_t duty)
 {
     uint16_t Compare = duty; // duty * (ARR + 1) / (MAX_VALUE) == duty * 1.004
     if (i == 1)
