@@ -32,8 +32,8 @@ void System_PreInit(void)
  */
 void System_PostInit(void)
 {
-    Execute_AllOn();
-    printf("Program started...\r\n");
+    Command_Start();
+    printf("[INFO ]: Program started!\r\n");
 }
 
 /**
@@ -62,13 +62,11 @@ void System_Init(void)
 void System_MainLoop(void)
 {
     // 执行按键
-    uint8_t KeyNum = Key_GetNum();
-    Execute_KeyPressed(KeyNum);
+    Command_KeyPressed(Key_GetNum());
     // 执行命令
     uint8_t *cmd = Serial_Get();
     if (cmd != NULL)
     {
-        printf("1%s", cmd);
-        //Command_Execute(cmd);
+        Command_Execute(cmd);
     }
 }
