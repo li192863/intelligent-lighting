@@ -37,15 +37,6 @@ void Serial_Init(void)
     USART_InitStruct.USART_WordLength = WORD_LENGTH;
     USART_Init(USART3, &USART_InitStruct);
     USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
-
-    // // 初始化中断响应
-    // NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-    // NVIC_InitTypeDef NVIC_InitStruct;
-    // NVIC_InitStruct.NVIC_IRQChannel = USART3_IRQn;
-    // NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
-    // NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 1;
-    // NVIC_InitStruct.NVIC_IRQChannelSubPriority = 1;
-    // NVIC_Init(&NVIC_InitStruct);
     
     // 开启USART
     USART_Cmd(USART3, ENABLE);
@@ -160,9 +151,10 @@ uint8_t* Serial_Get(void)
     {
         // 在调试模式下打印字符串
         if (DEBUG) {
+            printf("[DEBUG]: Recive data ");
             for (int i = 0; Serial_RxPacket[i] != '\0'; i++)
             {
-                printf("%2x ", Serial_RxPacket[i]);
+                printf("%02x ", Serial_RxPacket[i]);
             }
             printf("\r\n");
         }

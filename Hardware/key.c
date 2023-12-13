@@ -198,7 +198,7 @@ uint8_t Key_GetNum(void)
     // }
     if (DEBUG && KeyNum != 0)
     {
-        printf("[DEBUG]: KeyNum %2d\r\n", KeyNum);
+        printf("[DEBUG]: Key number %2d\r\n", KeyNum);
     }
     return KeyNum;
 }
