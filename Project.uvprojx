@@ -660,6 +660,56 @@
               <FileType>5</FileType>
               <FilePath>.\System\delay.h</FilePath>
             </File>
+            <File>
+              <FileName>my_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\my_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>my_flash.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\my_flash.h</FilePath>
+            </File>
+            <File>
+              <FileName>system.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\system.c</FilePath>
+            </File>
+            <File>
+              <FileName>system.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\system.h</FilePath>
+            </File>
+            <File>
+              <FileName>command.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\command.c</FilePath>
+            </File>
+            <File>
+              <FileName>command.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\command.h</FilePath>
+            </File>
+            <File>
+              <FileName>execute.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\execute.c</FilePath>
+            </File>
+            <File>
+              <FileName>execute.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\execute.h</FilePath>
+            </File>
+            <File>
+              <FileName>switch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\switch.c</FilePath>
+            </File>
+            <File>
+              <FileName>switch.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\switch.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -696,14 +746,14 @@
               <FilePath>.\Hardware\serial.h</FilePath>
             </File>
             <File>
-              <FileName>system.c</FileName>
+              <FileName>store.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Hardware\system.c</FilePath>
+              <FilePath>.\Hardware\store.c</FilePath>
             </File>
             <File>
-              <FileName>system.h</FileName>
+              <FileName>store.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Hardware\system.h</FilePath>
+              <FilePath>.\Hardware\store.h</FilePath>
             </File>
           </Files>
         </Group>
