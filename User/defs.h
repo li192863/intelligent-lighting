@@ -147,7 +147,7 @@
 // 存储单位 以Byte为单位
 #define STORE_UNIT (2)
 // 存储区缓存大小 以HalfWord为单位（16位）
-#define STORE_LEN (1024 / (STORE_UNIT))
+#define STORE_MAX_LEN (1024 / (STORE_UNIT))
 // 存储区起始地址
 #define STORE_START_ADDRESS (0x0800FC00)
 // 选项位区
@@ -192,5 +192,7 @@
 #define DUTY_14 (MAX_DUTY)
 #define DUTY_15 (MAX_DUTY)
 #define DUTY_16 (MIN_DUTY) // 备用
+// 存储区实际缓存大小 以HalfWord为单位（16位）
+#define STORE_LEN ((DUTY_START) + (DUTY_LEN))
 
 #endif

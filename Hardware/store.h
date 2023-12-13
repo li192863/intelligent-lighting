@@ -7,6 +7,7 @@ void Store_Init(void);
 void Store_Write(void);
 void Store_Read(void);
 void Store_Clear(void);
+void Store_PrintStoreData(void);
 
 void Store_WriteDuties(uint16_t duties[], int len);
 void Store_WriteMaskedDuties(uint16_t mask[], int len, uint16_t value);

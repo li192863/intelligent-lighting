@@ -1,8 +1,9 @@
+#include <stdio.h>
 #include "stm32f10x.h"                  // Device header
 #include "my_flash.h"
 #include "defs.h"
 
-uint16_t Store_Data[STORE_LEN];
+uint16_t Store_Data[STORE_MAX_LEN];
 
 /**
  * @brief  加载初始化配置
@@ -13,7 +14,8 @@ void Store_LoadDefaultConfig(void)
     // 选项
     uint16_t flags[FLAG_LEN] =
     {
-        FLAG_EFFECTIVE
+        // 标志位
+        FLAG_EFFECTIVE // 存储标志位
     };
     for (int i = 0; i < FLAG_LEN; i++)
     {
@@ -23,6 +25,7 @@ void Store_LoadDefaultConfig(void)
     // 开关
     uint16_t switches[SWITCH_LEN] =
     {
+        // 开关状态
         SWITCH_1,
         SWITCH_2,
         SWITCH_3,
@@ -47,6 +50,7 @@ void Store_LoadDefaultConfig(void)
     // 亮度
     uint16_t duties[DUTY_LEN] =
     {
+        // 亮度信息
         DUTY_1,
         DUTY_2,
         DUTY_3,
@@ -77,7 +81,7 @@ void Store_Write(void)
 {
     MyFlash_ErasePage(STORE_START_ADDRESS);
     // 写入数据
-    for (int i = 0; i < STORE_LEN; i++)
+    for (int i = 0; i < STORE_MAX_LEN; i++)
     {
         MyFlash_ProgramHalfWord(STORE_START_ADDRESS + i * STORE_UNIT, Store_Data[i]);
     }
@@ -90,7 +94,7 @@ void Store_Write(void)
 void Store_Read(void)
 {
     // 读取数据
-    for (int i = 0; i < STORE_LEN; i++)
+    for (int i = 0; i < STORE_MAX_LEN; i++)
     {
         Store_Data[i] = MyFlash_ReadHalfWord(STORE_START_ADDRESS + i * STORE_UNIT);
     }
@@ -122,11 +126,54 @@ void Store_Init(void)
  */
 void Store_Clear(void)
 {
-    for (int i = 0; i < STORE_LEN; i++)
+    for (int i = 0; i < STORE_MAX_LEN; i++)
     {
         Store_Data[i] = 0;
     }
     Store_Write();
+}
+
+/**
+ * @brief  打印信息
+ * @retval 开关信息
+ */
+void Store_PrintStoreData(void)
+{
+    // 打印存储数据信息
+    for (int i = 0; i < STORE_LEN; i++) {
+        printf("%04x ", Store_Data[i]);
+    }
+    printf("\r\n");
+
+    // 调试模式下风格化
+    if (DEBUG)
+    {
+        int len1 = FLAG_LEN, len2 = FLAG_LEN + SWITCH_LEN, len3 = FLAG_LEN + SWITCH_LEN + DUTY_LEN;
+
+        printf("[DEBUG]: FLAGS    ");
+        int i = 0;
+        while (i < len1) printf("%04x ", Store_Data[i++]);
+        printf("\r\n");
+        
+        printf("[DEBUG]: SWITCHES ");
+        while (i < len2) printf("%04x ", Store_Data[i++]);
+        printf("\r\n");
+        
+        printf("[DEBUG]: DUTIES   ");
+        while (i < len3) printf("%04x ", Store_Data[i++]);
+        printf("\r\n");
+
+        printf("[DEBUG]: CURRENT  ");
+        int j = len1, k = len2;
+        while (j < len2 && k < len3)
+        {
+            uint8_t luminance = (((int) (Store_Data[j] ? Store_Data[k] : MIN_DUTY)) - MIN_DUTY) * 100 / (MAX_DUTY - MIN_DUTY);
+            printf("%4d ", luminance);
+            j++;
+            k++;
+        }
+        printf("\r\n");
+    }
 }
 
 /**
