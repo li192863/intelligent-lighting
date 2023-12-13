@@ -4,7 +4,7 @@
 #include "defs.h"
 
 uint8_t Serial_RxPacket[RX_PACKET_LEN];
-uint8_t Serial_RxFlag;
+uint8_t Serial_RxFlag = 0;
 
 /**
   * @brief  串口初始化
@@ -160,7 +160,11 @@ uint8_t* Serial_Get(void)
     {
         // 在调试模式下打印字符串
         if (DEBUG) {
-            printf(Serial_RxPacket);
+            for (int i = 0; Serial_RxPacket[i] != '\0'; i++)
+            {
+                printf("%2x ", Serial_RxPacket[i]);
+            }
+            printf("\r\n");
         }
         // 重新开启接收
         Serial_RxFlag = 0;
