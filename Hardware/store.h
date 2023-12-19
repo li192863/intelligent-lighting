@@ -9,15 +9,15 @@ void Store_Read(void);
 void Store_Clear(void);
 void Store_PrintStoreData(void);
 
-void Store_WriteDuties(uint16_t duties[], int len);
-void Store_WriteMaskedDuties(uint16_t mask[], int len, uint16_t value);
+void Store_WriteDuties(uint16_t Duties[], int Len);
+void Store_WriteMaskedDuties(uint16_t Mask[], int Len, uint16_t Duty);
 uint16_t* Store_ReadDuties(void);
-void Store_WriteDuty(uint8_t i, uint16_t duty);
+void Store_WriteDuty(uint8_t i, uint16_t Duty);
 uint16_t Store_ReadDuty(uint8_t i);
-void Store_WriteSwitches(uint16_t switches[], int len);
-void Store_WriteMaskedSwitches(uint16_t mask[], int len, uint16_t value);
+void Store_WriteSwitches(uint16_t Switches[], int Len);
+void Store_WriteMaskedSwitches(uint16_t Mask[], int Len, uint16_t Switch);
 uint16_t* Store_ReadSwitches(void);
-void Store_WriteSwitch(uint8_t i, uint16_t switch_);
+void Store_WriteSwitch(uint8_t i, uint16_t Switch);
 uint16_t Store_ReadSwitch(uint8_t i);
 
 #endif

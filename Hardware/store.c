@@ -178,30 +178,30 @@ void Store_PrintStoreData(void)
 
 /**
  * @brief  写入占空比信息
- * @param duties 占空比数组
- * @param len 占空比数组长度
+ * @param  Duties 占空比数组
+ * @param  Len 占空比数组长度
  * @retval 无
  */
-void Store_WriteDuties(uint16_t duties[], int len)
+void Store_WriteDuties(uint16_t Duties[], int Len)
 {
-    for (int i = 0; i < len && i < DUTY_LEN; i++) {
-        Store_Data[DUTY_START + i] = duties[i];
+    for (int i = 0; i < Len && i < DUTY_LEN; i++) {
+        Store_Data[DUTY_START + i] = Duties[i];
     }
     Store_Write();
 }
 
 /**
  * @brief  写入占空比信息
- * @param mask 掩码数组，值为非0的表示被选择，值为0的不被选择
- * @param len 掩码数组的长度（将依次按序设置）
- * @param value 掩码处设置的值
+ * @param  Mask 掩码数组，值为非0的表示被选择，值为0的不被选择
+ * @param  Len 掩码数组的长度（将依次按序设置）
+ * @param  Duty 掩码处设置的值
  * @retval 无
  */
-void Store_WriteMaskedDuties(uint16_t mask[], int len, uint16_t value)
+void Store_WriteMaskedDuties(uint16_t Mask[], int Len, uint16_t Duty)
 {
-    for (int i = 0; i < len && i < DUTY_LEN; i++) {
-        if (mask[i]) {
-            Store_Data[DUTY_LEN + i] = value;
+    for (int i = 0; i < Len && i < DUTY_LEN; i++) {
+        if (Mask[i]) {
+            Store_Data[DUTY_LEN + i] = Duty;
         }
     }
     Store_Write();
@@ -218,15 +218,15 @@ uint16_t* Store_ReadDuties(void)
 
 /**
  * @brief  写入占空比信息，注意：仅SET_DUTY才可调用此函数
- * @param i 第i个灯 1 ~ 16
- * @param duty 占空比
+ * @param  i 第i个灯 1 ~ 16
+ * @param  Duty 占空比
  * @retval 无
  */
-void Store_WriteDuty(uint8_t i, uint16_t duty)
+void Store_WriteDuty(uint8_t i, uint16_t Duty)
 {
     if (i >= 1 && i <= DUTY_LEN)
     {
-        Store_Data[DUTY_START + i - 1] = duty;
+        Store_Data[DUTY_START + i - 1] = Duty;
         Store_Write();
     }
 }
@@ -243,30 +243,30 @@ uint16_t Store_ReadDuty(uint8_t i)
 
 /**
  * @brief  写入开关信息
- * @param switches 开关数组
- * @param len 开关数组长度
+ * @param  Switches 开关数组
+ * @param  Len 开关数组长度
  * @retval 无
  */
-void Store_WriteSwitches(uint16_t switches[], int len)
+void Store_WriteSwitches(uint16_t Switches[], int Len)
 {
-    for (int i = 0; i < len && i < SWITCH_LEN; i++) {
-        Store_Data[SWITCH_START + i] = switches[i];
+    for (int i = 0; i < Len && i < SWITCH_LEN; i++) {
+        Store_Data[SWITCH_START + i] = Switches[i];
     }
     Store_Write();
 }
 
 /**
  * @brief  写入开关信息
- * @param mask 掩码数组，值为非0的表示被选择，值为0的不被选择
- * @param len 掩码数组的长度（将依次按序设置）
- * @param value 掩码处设置的值
+ * @param  Mask 掩码数组，值为非0的表示被选择，值为0的不被选择
+ * @param  Len 掩码数组的长度（将依次按序设置）
+ * @param  Switch 掩码处设置的值
  * @retval 无
  */
-void Store_WriteMaskedSwitches(uint16_t mask[], int len, uint16_t value)
+void Store_WriteMaskedSwitches(uint16_t Mask[], int Len, uint16_t Switch)
 {
-    for (int i = 0; i < len && i < SWITCH_LEN; i++) {
-        if (mask[i]) {
-            Store_Data[SWITCH_START + i] = value;
+    for (int i = 0; i < Len && i < SWITCH_LEN; i++) {
+        if (Mask[i]) {
+            Store_Data[SWITCH_START + i] = Switch;
         }
     }
     Store_Write();
@@ -283,15 +283,15 @@ uint16_t* Store_ReadSwitches(void)
 
 /**
  * @brief  写入开关信息
- * @param i 第i个灯 1 ~ 16
- * @param switch_ 开关信息
+ * @param  i 第i个灯 1 ~ 16
+ * @param  Switch 开关信息
  * @retval 无
  */
-void Store_WriteSwitch(uint8_t i, uint16_t switch_)
+void Store_WriteSwitch(uint8_t i, uint16_t Switch)
 {
     if (i >= 1 && i <= SWITCH_LEN)
     {
-        Store_Data[SWITCH_START + i - 1] = switch_;
+        Store_Data[SWITCH_START + i - 1] = Switch;
         Store_Write();
     }
 }
