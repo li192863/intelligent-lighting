@@ -15,6 +15,7 @@ void Execute_AllOn(void);
 void Execute_AllOff(void);
 
 void Execute_KeyPressed(uint8_t KeyNum);
-void Execute_Reset(void);
+void Execute_DeepReset(void);
+void Execute_Restart(void);
 
 #endif

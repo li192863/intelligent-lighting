@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "stm32f10x.h"                  // Device header
+#include "defs.h"
 #include "serial.h"
 #include "pwm.h"
 #include "key.h"
@@ -32,7 +33,26 @@ void System_PreInit(void)
  */
 void System_PostInit(void)
 {
+    // 根据存储值启动
     Command_Start();
+
+    // 检测是否发生了独立看门狗复位
+    if (RCC_GetFlagStatus(RCC_FLAG_IWDGRST) == SET)
+    {
+        if (DEBUG)
+        {
+            printf("[DEBUG]: Independent Watchdog reset detected!\r\n");
+        }
+        RCC_ClearFlag();
+    }
+
+    // 开启独立看门狗
+    IWDG_WriteAccessCmd(IWDG_WriteAccess_Enable);
+    IWDG_SetPrescaler(IWDG_Prescaler_128);
+    IWDG_SetReload(3124); // 10000ms = 10s
+    IWDG_ReloadCounter(); // 喂狗
+    IWDG_Enable();
+
     printf("[INFO ]: Program started!\r\n");
 }
 
@@ -61,6 +81,8 @@ void System_Init(void)
  */
 void System_MainLoop(void)
 {
+    // 执行喂狗
+    IWDG_ReloadCounter(); // 喂狗
     // 执行按键
     Command_KeyPressed(Key_GetNum());
     // 执行命令

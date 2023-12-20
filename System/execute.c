@@ -181,13 +181,27 @@ void Execute_KeyPressed(uint8_t KeyNum)
 }
 
 /**
- * @brief  重置系统
+ * @brief  重置系统，包括Flash存储等一同清除
  * @retval 无
  */
-void Execute_Reset(void)
+void Execute_DeepReset(void)
 {
     Store_Clear();
-    printf("System reset has completed!\r\n ");
+    if (DEBUG)
+    {
+        printf("[DEBUG]: System reset has completed!\r\n ");
+    }
+    // 重新启动
+    __set_FAULTMASK(1);
+    NVIC_SystemReset();
+}
+
+/**
+ * @brief  普通重置系统，即不删除缓存数据
+ * @retval 无
+ */
+void Execute_Restart(void)
+{
     // 重新启动
     __set_FAULTMASK(1);
     NVIC_SystemReset();
