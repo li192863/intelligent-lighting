@@ -22,31 +22,6 @@ void Store_LoadDefaultConfig(void)
         Store_Data[FLAG_START + i] = flags[i];
     }
 
-    // 开关
-    uint16_t switches[SWITCH_LEN] =
-    {
-        // 开关状态
-        SWITCH_1,
-        SWITCH_2,
-        SWITCH_3,
-        SWITCH_4,
-        SWITCH_5,
-        SWITCH_6,
-        SWITCH_7,
-        SWITCH_8,
-        SWITCH_9,
-        SWITCH_10,
-        SWITCH_11,
-        SWITCH_12,
-        SWITCH_13,
-        SWITCH_14,
-        SWITCH_15,
-        SWITCH_16
-    };
-    for (int i = 0; i < SWITCH_LEN; i++) {
-        Store_Data[SWITCH_START + i] = switches[i];
-    }
-
     // 亮度
     uint16_t duties[DUTY_LEN] =
     {
@@ -148,29 +123,24 @@ void Store_PrintStoreData(void)
     // 调试模式下风格化
     if (DEBUG)
     {
-        int len1 = FLAG_LEN, len2 = FLAG_LEN + SWITCH_LEN, len3 = FLAG_LEN + SWITCH_LEN + DUTY_LEN;
+        int len1 = FLAG_LEN, len2 = FLAG_LEN + DUTY_LEN;
 
-        printf("[DEBUG]: FLAGS    ");
+        printf("[DEBUG]: FLAGS   ");
         int i = 0;
         while (i < len1) printf("%04x ", Store_Data[i++]);
         printf("\r\n");
         
-        printf("[DEBUG]: SWITCHES ");
+        printf("[DEBUG]: DUTIES  ");
         while (i < len2) printf("%04x ", Store_Data[i++]);
         printf("\r\n");
-        
-        printf("[DEBUG]: DUTIES   ");
-        while (i < len3) printf("%04x ", Store_Data[i++]);
-        printf("\r\n");
 
-        printf("[DEBUG]: CURRENT  ");
-        int j = len1, k = len2;
-        while (j < len2 && k < len3)
+        printf("[DEBUG]: CURRENT ");
+        int j = len1;
+        while (j < len2)
         {
-            uint8_t luminance = (((int) (Store_Data[j] ? Store_Data[k] : MIN_DUTY)) - MIN_DUTY) * 100 / (MAX_DUTY - MIN_DUTY);
+            uint8_t luminance = (((int) Store_Data[j]) - MIN_DUTY) * 100 / (MAX_DUTY - MIN_DUTY);
             printf("%4d ", luminance);
             j++;
-            k++;
         }
         printf("\r\n");
     }
@@ -201,19 +171,10 @@ void Store_WriteMaskedDuties(uint16_t Mask[], int Len, uint16_t Duty)
 {
     for (int i = 0; i < Len && i < DUTY_LEN; i++) {
         if (Mask[i]) {
-            Store_Data[DUTY_LEN + i] = Duty;
+            Store_Data[DUTY_START + i] = Duty;
         }
     }
     Store_Write();
-}
-
-/**
- * @brief  读取占空比信息
- * @retval 指向占空比数组的指针
- */
-uint16_t* Store_ReadDuties(void)
-{
-    return Store_Data + DUTY_START;
 }
 
 /**
@@ -233,75 +194,24 @@ void Store_WriteDuty(uint8_t i, uint16_t Duty)
 
 /**
  * @brief  读取占空比信息
+ * @param  Len 指向长度的指针，若为NULL则不做处理
+ * @retval 指向占空比数组的指针
+ */
+uint16_t* Store_ReadDuties(int *Len)
+{
+    if (Len != NULL)
+    {
+        *Len = DUTY_LEN;
+    }
+    return Store_Data + DUTY_START;
+}
+
+/**
+ * @brief  读取占空比信息
  * @param  i 第i个灯 1 ~ 16
  * @retval 占空比
  */
 uint16_t Store_ReadDuty(uint8_t i)
 {
     return Store_Data[DUTY_START + i - 1];
-}
-
-/**
- * @brief  写入开关信息
- * @param  Switches 开关数组
- * @param  Len 开关数组长度
- * @retval 无
- */
-void Store_WriteSwitches(uint16_t Switches[], int Len)
-{
-    for (int i = 0; i < Len && i < SWITCH_LEN; i++) {
-        Store_Data[SWITCH_START + i] = Switches[i];
-    }
-    Store_Write();
-}
-
-/**
- * @brief  写入开关信息
- * @param  Mask 掩码数组，值为非0的表示被选择，值为0的不被选择
- * @param  Len 掩码数组的长度（将依次按序设置）
- * @param  Switch 掩码处设置的值
- * @retval 无
- */
-void Store_WriteMaskedSwitches(uint16_t Mask[], int Len, uint16_t Switch)
-{
-    for (int i = 0; i < Len && i < SWITCH_LEN; i++) {
-        if (Mask[i]) {
-            Store_Data[SWITCH_START + i] = Switch;
-        }
-    }
-    Store_Write();
-}
-
-/**
- * @brief  读取开关信息
- * @retval 指向开关数组的指针
- */
-uint16_t* Store_ReadSwitches(void)
-{
-    return Store_Data + SWITCH_START;
-}
-
-/**
- * @brief  写入开关信息
- * @param  i 第i个灯 1 ~ 16
- * @param  Switch 开关信息
- * @retval 无
- */
-void Store_WriteSwitch(uint8_t i, uint16_t Switch)
-{
-    if (i >= 1 && i <= SWITCH_LEN)
-    {
-        Store_Data[SWITCH_START + i - 1] = Switch;
-        Store_Write();
-    }
-}
-
-/**
- * @brief  读取开关信息
- * @param  i 第i个灯 1 ~ 16
- * @retval 开关信息
- */
-uint16_t Store_ReadSwitch(uint8_t i)
-{
-    return Store_Data[SWITCH_START + i - 1];
 }

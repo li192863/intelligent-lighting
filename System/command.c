@@ -12,31 +12,21 @@ enum Command {
   NOP,
   // 查看状态 <cn> 0x01
   STATUS,
-  // 设置当前某灯亮度，仅限内部调试使用 <cn><ln><n> 0x02017f
-  SET_CURRENT_DUTY,
+  // 设置当前某灯亮度，<cn><ln><n> 0x02017f
+  SET_DUTY,
   // 获取当前亮度 <cn><ln> 0x0301
-  GET_CURRENT_DUTY,
-  // 设置某灯亮度，并同时修改当前亮度为此值 <cn><ln><n> 0x04017f
-  SET_STORED_DUTY,
-  // 获取设置亮度 <cn><ln> 0x0501
-  GET_STORED_DUTY,
-  // 设置开关 <cn><ln><n> 0x060101
-  SET_SWITCH,
-  // 获取开关 <cn><ln> 0x0701
-  GET_SWITCH,
-  // 开启某灯 <cn><ln> 0x0801
+  GET_DUTY,
+  // 开启某灯 <cn><ln> 0x0401
   ON,
-  // 关闭某灯 <cn><ln> 0x0901
+  // 关闭某灯 <cn><ln> 0x0501
   OFF,
-  // 开启/关闭某灯 <cn><ln> 0x0A01
-  TURN,
-  // 全部开启 <cn> 0x0B
+  // 全部开启 <cn> 0x06
   ALL_ON,
-  // 全部关闭 <cn> 0x0C
+  // 全部关闭 <cn> 0x07
   ALL_OFF,
-  // 模拟按键按下 <cn><kn> 0x0D01
+  // 模拟按键按下 <cn><kn> 0x0801
   KEY_PRESSED,
-  // 重置系统 <cn> 0x0E
+  // 重置系统 <cn> 0x09
   MY_RESET
 };
 
@@ -56,12 +46,9 @@ void Command_KeyPressed(uint8_t KeyNum)
  */
 void Command_Start(void)
 {
-    for (int i = 0; i < DUTY_LEN; i++)
-    {
-        uint8_t switch_ = Execute_GetSwitch(i + 1);
-        uint16_t duty = switch_ ? Execute_GetStoredDuty(i + 1) : MIN_DUTY;
-        Execute_SetCurrentDuty(i + 1, duty);
-    }
+    int len = 0;
+    uint16_t *duties = Execute_GetDuties(&len);
+    Execute_SetDuties(duties, len);
 }
 
 /**
@@ -79,30 +66,12 @@ void Command_Execute(uint8_t Bytes[])
         Execute_Status();
         break;
     // <cn><ln><n>
-    case SET_CURRENT_DUTY:
-        // Deprecated, do NOT use this function to avoid unsatisfying results.
-        // 编写这个函数的目的是配合开关使用，使用命令方式传入会产生不符合预期的结果
-        // Execute_SetCurrentDuty(Bytes[1], Bytes[2]);
+    case SET_DUTY:
+        Execute_SetDuty(Bytes[1], Bytes[2]);
         break;
     // <cn><ln>
-    case GET_CURRENT_DUTY:
-        printf("%4d\r\n", Execute_GetCurrentDuty(Bytes[1]));
-        break;
-    // <cn><ln><n>
-    case SET_STORED_DUTY:
-        Execute_SetStoredDuty(Bytes[1], Bytes[2]);
-        break;
-    // <cn><ln>
-    case GET_STORED_DUTY:
-        printf("%4d\r\n", Execute_GetStoredDuty(Bytes[1]));
-        break;
-    // <cn><ln><n>
-    case SET_SWITCH:
-        Execute_SetSwitch(Bytes[1], Bytes[2]);
-        break;
-    // <cn><ln>
-    case GET_SWITCH:
-        printf("%4d\r\n", Execute_GetSwitch(Bytes[1]));
+    case GET_DUTY:
+        printf("%4d\r\n", Execute_GetDuty(Bytes[1]));
         break;
     // <cn><ln>
     case ON:
@@ -111,10 +80,6 @@ void Command_Execute(uint8_t Bytes[])
     // <cn><ln>
     case OFF:
         Execute_Off(Bytes[1]);
-        break;
-    // <cn><ln>
-    case TURN:
-        Execute_Turn(Bytes[1]);
         break;
     // <cn>
     case ALL_ON:

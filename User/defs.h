@@ -13,9 +13,11 @@
 // 占空比最大值
 #define MAX_VALUE (127)
 // 占空比调节最小值
-#define MIN_DUTY (8)
+#define MIN_DUTY (0)
 // 占空比调节最大值
-#define MAX_DUTY (119)
+#define MAX_DUTY (127)
+// 占空比调节档次
+#define GEAR_COUNT (8)
 
 // PWM Freq = CK_PSC / (PSC + 1) / (ARR + 1) = 72M / 128 / 140 = 4017.86kHz
 // 时钟分频 1分频
@@ -154,27 +156,8 @@
 #define FLAG_START (0)
 #define FLAG_LEN (8)
 #define FLAG_EFFECTIVE (0x6666)
-// 开关状态区
-#define SWITCH_START ((FLAG_START) + (FLAG_LEN))
-#define SWITCH_LEN (16)
-#define SWITCH_1 (1)
-#define SWITCH_2 (1)
-#define SWITCH_3 (1)
-#define SWITCH_4 (1)
-#define SWITCH_5 (1)
-#define SWITCH_6 (1)
-#define SWITCH_7 (1)
-#define SWITCH_8 (1)
-#define SWITCH_9 (1)
-#define SWITCH_10 (1)
-#define SWITCH_11 (1)
-#define SWITCH_12 (1)
-#define SWITCH_13 (1)
-#define SWITCH_14 (1)
-#define SWITCH_15 (1)
-#define SWITCH_16 (0) // 备用
 // 占空比区
-#define DUTY_START ((SWITCH_START) + (SWITCH_LEN))
+#define DUTY_START ((FLAG_START) + (FLAG_LEN))
 #define DUTY_LEN (16)
 #define DUTY_1 (MAX_DUTY)
 #define DUTY_2 (MAX_DUTY)
@@ -191,7 +174,7 @@
 #define DUTY_13 (MAX_DUTY)
 #define DUTY_14 (MAX_DUTY)
 #define DUTY_15 (MAX_DUTY)
-#define DUTY_16 (MIN_DUTY) // 备用
+#define DUTY_16 (MAX_DUTY)
 // 存储区实际缓存大小 以HalfWord为单位（16位）
 #define STORE_LEN ((DUTY_START) + (DUTY_LEN))
 
