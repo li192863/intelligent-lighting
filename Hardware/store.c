@@ -116,7 +116,7 @@ void Store_PrintStoreData(void)
 {
     // 打印存储数据信息
     for (int i = 0; i < STORE_LEN; i++) {
-        printf("%04x ", Store_Data[i]);
+        printf("%x ", Store_Data[i]);
     }
     printf("\r\n");
 

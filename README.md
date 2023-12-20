@@ -28,20 +28,22 @@ git clone https://github.com/li192863/intelligent-lighting.git
 
 ```c
 // 通用 General
-// 日志模式，开启DEBUG模式下会回显更多提示消息，若不开启则没有
-#define DEBUG (1)
+// 日志模式
+#define DEBUG (0)
 // 芯片速度
 #define SPEED GPIO_Speed_50MHz
 // 灯源频率
-#define FREQ (1000)
-// 占空比实际最小值
+#define FREQ (4000)
+// 占空比最小值
 #define MIN_VALUE (0)
-// 占空比实际最大值
+// 占空比最大值
 #define MAX_VALUE (127)
 // 占空比调节最小值
-#define MIN_DUTY (8)
+#define MIN_DUTY (0)
 // 占空比调节最大值
-#define MAX_DUTY (119)
+#define MAX_DUTY (127)
+// 占空比调节档次
+#define GEAR_COUNT (8)
 ```
 
 ## 硬件模块
@@ -210,27 +212,8 @@ PWM波配置如下：
 #define FLAG_START (0)
 #define FLAG_LEN (8)
 #define FLAG_EFFECTIVE (0x6666)
-// 开关状态区
-#define SWITCH_START ((FLAG_START) + (FLAG_LEN))
-#define SWITCH_LEN (16)
-#define SWITCH_1 (1)
-#define SWITCH_2 (1)
-#define SWITCH_3 (1)
-#define SWITCH_4 (1)
-#define SWITCH_5 (1)
-#define SWITCH_6 (1)
-#define SWITCH_7 (1)
-#define SWITCH_8 (1)
-#define SWITCH_9 (1)
-#define SWITCH_10 (1)
-#define SWITCH_11 (1)
-#define SWITCH_12 (1)
-#define SWITCH_13 (1)
-#define SWITCH_14 (1)
-#define SWITCH_15 (1)
-#define SWITCH_16 (0) // 备用
 // 占空比区
-#define DUTY_START ((SWITCH_START) + (SWITCH_LEN))
+#define DUTY_START ((FLAG_START) + (FLAG_LEN))
 #define DUTY_LEN (16)
 #define DUTY_1 (MAX_DUTY)
 #define DUTY_2 (MAX_DUTY)
@@ -247,18 +230,16 @@ PWM波配置如下：
 #define DUTY_13 (MAX_DUTY)
 #define DUTY_14 (MAX_DUTY)
 #define DUTY_15 (MAX_DUTY)
-#define DUTY_16 (MIN_DUTY) // 备用
+#define DUTY_16 (MAX_DUTY)
 // 存储区实际缓存大小 以HalfWord为单位（16位）
 #define STORE_LEN ((DUTY_START) + (DUTY_LEN))
 ```
 
 Flash存储的信息如下：FLAG（8个半字）、SWITCH（16个半字）、DUTY（16个半字），存储的信息起始地址为`0x0x0800FC00`。
 
-Flash首次加载时，会判断FLAG的第一个半字是否为`0x6666`，如果是，则判断存储信息有效、加载存储信息，否则则加载默认配置。Flash加载的配置信息主要有**各个灯的开启/关闭状态**，以及**各个灯的PWM波占空比**（以128为分母）。芯片上电后，以这些信息设置灯的开关状态和PWM波占空比。
+Flash首次加载时，会判断FLAG的第一个半字是否为`0x6666`，如果是，则判断存储信息有效、加载存储信息，否则则加载默认配置。Flash加载的配置信息主要有标志信息（8×16bit）、**各个灯的PWM波占空比**（以128为分母、16×16bit）。芯片上电后，以这些信息设置灯的PWM波占空比。
 
-注意`SWITCH`和`KEY`的区别，每个`SWITCH`对应一个灯，每一个`KEY`对应多个`SWITCH`。
-
-注意在系统运行时，灯光亮度信息和开关信息实时更新至Flash当中。
+注意在系统运行时，灯光亮度信息实时更新至Flash当中。
 
 ## 系统模块
 
@@ -268,50 +249,41 @@ Flash首次加载时，会判断FLAG的第一个半字是否为`0x6666`，如果
 
 ```C
 /**
- * 命令 命令为16进制形式，数量最多256-3=253条，长度最长为256-4=252B
+ * 接收的命令
+ * 命令为16进制形式，数量最多256-3=253条，长度最长为256-4=252B
  * 为方便描述命令格式，约定<cn> -> HEX(cmd num), <ln> -> HEX(light num), <kn> -> HEX(key num), <n> -> HEX(num)
  */
 enum Command {
-  // 不进行任何操作 仅做占位使用
-  NOP,
-  // 查看状态 <cn> 0x01
-  STATUS,
-  // 设置当前某灯亮度，仅限内部调试使用 <cn><ln><n> 0x02017f
-  SET_CURRENT_DUTY,
-  // 获取当前亮度 <cn><ln> 0x0301
-  GET_CURRENT_DUTY,
-  // 设置某灯亮度，并同时修改当前亮度为此值 <cn><ln><n> 0x04017f
-  SET_STORED_DUTY,
-  // 获取设置亮度 <cn><ln> 0x0501
-  GET_STORED_DUTY,
-  // 设置开关 <cn><ln><n> 0x060101
-  SET_SWITCH,
-  // 获取开关 <cn><ln> 0x0701
-  GET_SWITCH,
-  // 开启某灯 <cn><ln> 0x0801
-  ON,
-  // 关闭某灯 <cn><ln> 0x0901
-  OFF,
-  // 开启/关闭某灯 <cn><ln> 0x0A01
-  TURN,
-  // 全部开启 <cn> 0x0B
-  ALL_ON,
-  // 全部关闭 <cn> 0x0C
-  ALL_OFF,
-  // 模拟按键按下 <cn><kn> 0x0D01
-  KEY_PRESSED,
-  // 重置系统 <cn> 0x0E
-  MY_RESET
+    // 不进行任何操作 仅做占位使用
+    COMMAND_NOP,
+    // 查看状态 <cn> 0x01
+    COMMAND_STATUS,
+    // 设置当前某灯亮度，<cn><ln><n> 0x02017f
+    COMMAND_SET_DUTY,
+    // 获取当前亮度 <cn><ln> 0x0301
+    COMMAND_GET_DUTY,
+    // 开启某灯 <cn><ln> 0x0401
+    COMMAND_ON,
+    // 关闭某灯 <cn><ln> 0x0501
+    COMMAND_OFF,
+    // 全部开启 <cn> 0x06
+    COMMAND_ALL_ON,
+    // 全部关闭 <cn> 0x07
+    COMMAND_ALL_OFF,
+    // 模拟按键按下 <cn><kn> 0x0801
+    COMMAND_KEY_PRESSED,
+    // 重置系统 <cn> 0x09
+    COMMAND_DEEP_RESET,
+    // 普通重置系统 <cn> 0x0A
+    COMMAND_RESTART
 };
 ```
 
 提供给上位机消息如上。注意消息为16进制，故如果使用串口调试助手，常用消息如下：
 
 * 获取当前灯光信息：`FF01FDFE`
-* 设置15号灯PWM波占空比为30/128：`FF040F30FDFE`
-* 全部开启：`FF0BFDFE`
-
-注意`SET_CURRENT_DUTY`不会将灯光信息存储到Flash当中，一般使用`SET_STORED_DUTY`来调节亮度，即调节亮度时会写入亮度信息到Flash当中。
+* 设置15号灯PWM波占空比为30/128：`FF020F30FDFE`
+* 全部开启：`FF07FDFE`
 
 ### 开关`switch.c`
 
@@ -333,7 +305,7 @@ const uint16_t KeyMapping[][SWITCH_LEN] =
 
 `KeyMapping[i][j]`表示按键`i`是否控制`j`灯，1表示控制，0表示不控制。
 
-按键策略为：如果按键控制一组灯，那么该组灯只要有一个一个亮，则判定这组灯处于开启状态，按键按下后，这组灯将全部处于关闭状态。
+按键策略为：按键按下，按键控制的相应灯亮度增加`1/GEAR_COUNT`。当达到最亮时，再按一次将变为0。
 
 ### 执行`execute.c`
 

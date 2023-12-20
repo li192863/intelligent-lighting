@@ -3,7 +3,7 @@
 
 // 通用 General
 // 日志模式
-#define DEBUG (1)
+#define DEBUG (0)
 // 芯片速度
 #define SPEED GPIO_Speed_50MHz
 // 灯源频率

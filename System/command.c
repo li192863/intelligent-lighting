@@ -2,6 +2,7 @@
 #include "stm32f10x.h"                  // Device header
 #include "defs.h"
 #include "execute.h"
+#include "serial.h"
 
 /**
  * 接收的命令
@@ -82,30 +83,36 @@ void Command_Execute(uint8_t Bytes[])
     // <cn><ln><n>
     case COMMAND_SET_DUTY:
         Execute_SetDuty(Bytes[1], Bytes[2]);
+        printf("%x\r\n", MESSAGE_SUCCESS);
         break;
     // <cn><ln>
     case COMMAND_GET_DUTY:
-        printf("%4d\r\n", Execute_GetDuty(Bytes[1]));
+        printf("%x\r\n", Execute_GetDuty(Bytes[1]));
         break;
     // <cn><ln>
     case COMMAND_ON:
         Execute_On(Bytes[1]);
+        printf("%x\r\n", MESSAGE_SUCCESS);
         break;
     // <cn><ln>
     case COMMAND_OFF:
         Execute_Off(Bytes[1]);
+        printf("%x\r\n", MESSAGE_SUCCESS);
         break;
     // <cn>
     case COMMAND_ALL_ON:
         Execute_AllOn();
+        printf("%x\r\n", MESSAGE_SUCCESS);
         break;
     // <cn>
     case COMMAND_ALL_OFF:
         Execute_AllOff();
+        printf("%x\r\n", MESSAGE_SUCCESS);
         break;
     // <cn><kn>
     case COMMAND_KEY_PRESSED:
         Execute_KeyPressed(Bytes[1]);
+        printf("%x\r\n", MESSAGE_SUCCESS);
         break;
     // <cn>
     case COMMAND_DEEP_RESET:

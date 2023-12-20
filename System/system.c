@@ -53,7 +53,10 @@ void System_PostInit(void)
     IWDG_ReloadCounter(); // 喂狗
     IWDG_Enable();
 
-    printf("[INFO ]: Program started!\r\n");
+    if (DEBUG)
+    {
+        printf("[INFO ]: Program started!\r\n");
+    }
 }
 
 /**
