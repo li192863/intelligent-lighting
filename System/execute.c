@@ -5,13 +5,30 @@
 #include "store.h"
 #include "switch.h"
 
+char buffer[TX_PACKET_LEN];
+
 /**
- * @brief  获取状态
+ * @brief  打印存储信息
  * @retval 无
  */
-void Execute_Status(void)
+void Execute_PrintStoredData(void)
 {
     Store_PrintStoreData();
+}
+
+/**
+ * @brief  获取状态信息
+ * @retval 字符串
+ */
+char* Execute_Status(void)
+{
+    int offset = 0;
+    for (int i = 0; i < STORE_LEN; i++)
+    {
+        offset += sprintf(buffer + offset, "%x ", Store_Data[i]);
+    }
+    buffer[offset] = '\0';
+    return buffer;
 }
 
 /**
@@ -184,7 +201,7 @@ void Execute_KeyPressed(uint8_t KeyNum)
  * @brief  重置系统，包括Flash存储等一同清除
  * @retval 无
  */
-void Execute_DeepReset(void)
+void Execute_Reset(void)
 {
     Store_Clear();
     if (DEBUG)

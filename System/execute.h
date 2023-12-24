@@ -1,7 +1,8 @@
 #ifndef __EXECUTE_H
 #define __EXECUTE_H
 
-void Execute_Status(void);
+void Execute_PrintStoredData(void);
+char* Execute_Status(void);
 
 void Execute_SetDuties(uint16_t Duties[], int Len);
 void Execute_SetMaskedDuties(uint16_t Mask[], int Len, uint16_t Duty);
@@ -15,7 +16,7 @@ void Execute_AllOn(void);
 void Execute_AllOff(void);
 
 void Execute_KeyPressed(uint8_t KeyNum);
-void Execute_DeepReset(void);
+void Execute_Reset(void);
 void Execute_Restart(void);
 
 #endif

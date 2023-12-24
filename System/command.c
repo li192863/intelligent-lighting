@@ -29,25 +29,28 @@ enum Command {
     // 模拟按键按下 <cn><kn> 0x0801
     COMMAND_KEY_PRESSED,
     // 重置系统 <cn> 0x09
-    COMMAND_DEEP_RESET,
+    COMMAND_RESET,
     // 普通重置系统 <cn> 0x0A
     COMMAND_RESTART
 };
 
 /**
  * 发送的消息
- * 消息为16进制形式
+ * 消息为字符串形式，字符串中的数字为16进制
+ * 为方便描述消息格式，约定<mn> -> msg num <str> -> string content
  */
 enum Message {
     // 不进行任何操作 仅做占位使用
     MESSAGE_NOP,
-    // 操作成功
-    MESSAGE_SUCCESS
+    // 操作成功 <mn> 1
+    MESSAGE_SUCCESS,
+    // 操作失败 <mn> 2
+    MESSAGE_ERROR
 };
 
 /**
  * @brief  按键按下
- * @param KeyNum 按键值
+ * @param  KeyNum 按键值
  * @retval 无
  */
 void Command_KeyPressed(uint8_t KeyNum)
@@ -67,6 +70,54 @@ void Command_Start(void)
 }
 
 /**
+ * @brief  发送成功信息
+ * @retval 无
+ */
+void Command_SendSuccess(void)
+{
+    printf("%d\r\n", MESSAGE_SUCCESS);
+}
+
+/**
+ * @brief  发送字符串
+ * @param  Info 信息内容
+ * @retval 无
+ */
+void Command_SendString(char* Info)
+{
+    printf("%d %s\r\n", MESSAGE_SUCCESS, Info);
+}
+
+/**
+ * @brief  发送10进制数字
+ * @param  Num 数字
+ * @retval 无
+ */
+void Command_SendNum(int Num)
+{
+    printf("%d %d\r\n", MESSAGE_SUCCESS, Num);
+}
+
+/**
+ * @brief  发送16进制数字
+ * @param  HexNum 数字
+ * @retval 无
+ */
+void Command_SendHexNum(int HexNum)
+{
+    printf("%d %x\r\n", MESSAGE_SUCCESS, HexNum);
+}
+
+/**
+ * @brief  发送失败信息
+ * @retval 无
+ */
+void Command_SendError(void)
+{
+    printf("%d\r\n", MESSAGE_ERROR);
+}
+
+/**
 * @brief  执行指定命令
 * @param Bytes 数组
 * @retval 无
@@ -78,45 +129,45 @@ void Command_Execute(uint8_t Bytes[])
     {
     // <cn>
     case COMMAND_STATUS:
-        Execute_Status();
+        Command_SendString(Execute_Status());
         break;
     // <cn><ln><n>
     case COMMAND_SET_DUTY:
         Execute_SetDuty(Bytes[1], Bytes[2]);
-        printf("%x\r\n", MESSAGE_SUCCESS);
+        Command_SendSuccess();
         break;
     // <cn><ln>
     case COMMAND_GET_DUTY:
-        printf("%x\r\n", Execute_GetDuty(Bytes[1]));
+        Command_SendHexNum(Execute_GetDuty(Bytes[1]));
         break;
     // <cn><ln>
     case COMMAND_ON:
         Execute_On(Bytes[1]);
-        printf("%x\r\n", MESSAGE_SUCCESS);
+        Command_SendSuccess();
         break;
     // <cn><ln>
     case COMMAND_OFF:
         Execute_Off(Bytes[1]);
-        printf("%x\r\n", MESSAGE_SUCCESS);
+        Command_SendSuccess();
         break;
     // <cn>
     case COMMAND_ALL_ON:
         Execute_AllOn();
-        printf("%x\r\n", MESSAGE_SUCCESS);
+        Command_SendSuccess();
         break;
     // <cn>
     case COMMAND_ALL_OFF:
         Execute_AllOff();
-        printf("%x\r\n", MESSAGE_SUCCESS);
+        Command_SendSuccess();
         break;
     // <cn><kn>
     case COMMAND_KEY_PRESSED:
         Execute_KeyPressed(Bytes[1]);
-        printf("%x\r\n", MESSAGE_SUCCESS);
+        Command_SendString(Execute_Status());
         break;
     // <cn>
-    case COMMAND_DEEP_RESET:
-        Execute_DeepReset();
+    case COMMAND_RESET:
+        Execute_Reset();
         break;
     // <cn>
     case COMMAND_RESTART:
