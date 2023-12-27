@@ -119,7 +119,7 @@
 #define TX_MODE GPIO_Mode_AF_PP
 #define TX_PIN GPIO_Pin_10
 // 波特率
-#define BAUD_RATE (9600)
+#define BAUD_RATE (115200)
 // 硬件流控制
 #define HARDWARE_FLOW_CONTROL USART_HardwareFlowControl_None
 // 校验
